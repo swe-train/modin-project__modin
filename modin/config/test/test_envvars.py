@@ -83,9 +83,12 @@ def test_custom_help(make_custom_envvar):
 
 def test_doc_module():
     import pandas
+    import numpy as np
 
     import modin.pandas as pd
     from modin.config import DocModule
+
+    assert pd.DataFrame([True]).all(axis=None) is np.bool_(True)
 
     DocModule.put("modin.config.test.docs_module")
 
@@ -110,6 +113,7 @@ def test_doc_module():
     # Test for pandas doc when function is not defined on module.
     assert pandas.read_table.__doc__ in pd.read_table.__doc__
 
+    assert pd.DataFrame([True]).all(axis=None) is np.bool_(True)
 
 def test_hdk_envvar():
     try:
